@@ -1,5 +1,17 @@
 # @modern-js/plugin-testing
 
+## 1.19.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@1.19.1
+- @modern-js/webpack@1.19.1
+- @modern-js/runtime@1.19.1
+- @modern-js/prod-server@1.19.1
+- @modern-js/babel-compiler@1.19.1
+- @modern-js/plugin@1.19.1
+- @modern-js/utils@1.19.1
+
 ## 1.19.0
 
 ### Patch Changes

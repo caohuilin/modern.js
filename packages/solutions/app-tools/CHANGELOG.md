@@ -1,5 +1,22 @@
 # @modern-js/app-tools
 
+## 1.19.1
+
+### Patch Changes
+
+- @modern-js/upgrade@1.19.1
+- @modern-js/core@1.19.1
+- @modern-js/plugin-i18n@1.19.1
+- @modern-js/plugin-jarvis@1.19.1
+- @modern-js/webpack@1.19.1
+- @modern-js/new-action@1.19.1
+- @modern-js/prod-server@1.19.1
+- @modern-js/server@1.19.1
+- @modern-js/node-bundle-require@1.19.1
+- @modern-js/plugin@1.19.1
+- @modern-js/types@1.19.1
+- @modern-js/utils@1.19.1
+
 ## 1.19.0
 
 ### Patch Changes
