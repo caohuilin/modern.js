@@ -1,5 +1,12 @@
 # @modern-js/plugin-changeset
 
+## 1.19.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@1.19.1
+- @modern-js/utils@1.19.1
+
 ## 1.19.0
 
 ### Minor Changes

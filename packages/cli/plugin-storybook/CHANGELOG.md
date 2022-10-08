@@ -1,5 +1,15 @@
 # @modern-js/plugin-storybook
 
+## 1.19.1
+
+### Patch Changes
+
+- a00296d: fix: change preview template
+  fix: 修改 preview 模板文件
+  - @modern-js/webpack@1.19.1
+  - @modern-js/runtime@1.19.1
+  - @modern-js/utils@1.19.1
+
 ## 1.19.0
 
 ### Patch Changes
