@@ -1,5 +1,46 @@
 # @modern-js/plugin-testing
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 8984a92: chore: v2
+
+### Patch Changes
+
+- cc971eabf: refactor: move server plugin load logic in `@modern-js/core`
+  refactor：移除在 `@modern-js/core` 中的 server 插件加载逻辑
+- 14b712d: fix: use consistent alias type and default value across packages
+
+  fix: 在各个包中使用一致的 alias 类型定义和默认值
+
+- Updated dependencies [b18fa8f]
+- Updated dependencies [c9e800d39]
+- Updated dependencies [15bf09d]
+- Updated dependencies [a2509bf]
+- Updated dependencies [decfcd989]
+- Updated dependencies [4369648ae]
+- Updated dependencies [edd1cfb]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [6bda14ed7]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [60d5378]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [8984a92]
+- Updated dependencies [102d32e]
+- Updated dependencies [8b8e1bb57]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [73cd29d]
+- Updated dependencies [fcace5b5b]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/runtime@2.0.0-beta.0
+  - @modern-js/prod-server@2.0.0-beta.0
+  - @modern-js/babel-preset-app@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/plugin@2.0.0-beta.0
+  - @modern-js/babel-compiler@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @modern-js/plugin-jarvis
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 8984a92: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [edd1cfb]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [8984a92]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/eslint-config@2.0.0-beta.0
+  - @modern-js-app/eslint-config@2.0.0-beta.0
+  - @modern-js/tsconfig@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @modern-js/tsconfig
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 8984a92: chore: v2
+
 ## 1.21.2
 
 ## 1.21.1

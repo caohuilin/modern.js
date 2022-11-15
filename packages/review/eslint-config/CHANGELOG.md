@@ -1,5 +1,16 @@
 # @modern-js/eslint-config
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 8984a92: chore: v2
+
+### Patch Changes
+
+- Updated dependencies [8984a92]
+  - @modern-js-app/eslint-config@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes

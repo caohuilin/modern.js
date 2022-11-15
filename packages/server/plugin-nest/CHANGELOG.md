@@ -1,5 +1,28 @@
 # @modern-js/plugin-nest
 
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 8984a92: chore: v2
+
+### Patch Changes
+
+- 3bbea92b2: feat: support Hook、Middleware new API
+  feat: 支持 Hook、Middleware 的新 API
+- Updated dependencies [a2509bf]
+- Updated dependencies [edd1cfb]
+- Updated dependencies [cc971eabf]
+- Updated dependencies [b8bbe036c]
+- Updated dependencies [d5a31df78]
+- Updated dependencies [8984a92]
+- Updated dependencies [3bbea92b2]
+- Updated dependencies [543be95]
+- Updated dependencies [14b712d]
+  - @modern-js/bff-core@2.0.0-beta.0
+  - @modern-js/utils@2.0.0-beta.0
+  - @modern-js/bff-runtime@2.0.0-beta.0
+
 ## 1.21.2
 
 ### Patch Changes
