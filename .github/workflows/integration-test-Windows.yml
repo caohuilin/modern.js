@@ -18,7 +18,7 @@ jobs:
   integration-test-windows:
     # The type of runner that the job will run on
     runs-on: [self-hosted, Windows, x64]
-    strategy:
+        strategy:
       matrix:
         node-version: [14.x]
         os: [windows-latest] # windows-latest
@@ -39,7 +39,7 @@ jobs:
         run: npm install -g pnpm@7
 
       - name: Check docs only change
-        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
+        run: echo "DOCS_CHANGE=$(node ./scripts/skip-docs-change.js echo 'not-docs-only-change')"
         id: docs-change
 
       - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
