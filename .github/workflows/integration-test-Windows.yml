@@ -18,7 +18,7 @@ jobs:
   integration-test-windows:
     # The type of runner that the job will run on
     runs-on: [self-hosted, Windows, x64]
-        strategy:
+    strategy:
       matrix:
         node-version: [14.x]
         os: [windows-latest] # windows-latest
