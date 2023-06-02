@@ -1,5 +1,16 @@
 # @modern-js/plugin-changeset
 
+## 2.22.1
+
+### Patch Changes
+
+- a2dd693: fix: release note get use not right
+
+  fix: 修复 Release Note 获取用户名称错误问题
+
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin-i18n@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes

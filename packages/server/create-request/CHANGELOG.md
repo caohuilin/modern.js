@@ -1,5 +1,11 @@
 # @modern-js/create-request
 
+## 2.22.1
+
+### Patch Changes
+
+- @modern-js/utils@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

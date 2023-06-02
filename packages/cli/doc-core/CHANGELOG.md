@@ -1,5 +1,20 @@
 # @modern-js/doc-core
 
+## 2.22.1
+
+### Patch Changes
+
+- af75f6d: fix(doc-core): img compile error in table tag
+
+  fix(doc-core): table 标签中的图片编译错误
+
+  - @modern-js/builder-rspack-provider@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder@2.22.1
+  - @modern-js/doc-plugin-medium-zoom@2.22.1
+  - @modern-js/remark-container@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes
