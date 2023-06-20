@@ -413,7 +413,7 @@ export function ssrLoaderCombinedModule(
   config: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
 ) {
-  const { entryName } = entrypoint;
+  const { entryName, isMainEntry } = entrypoint;
   const { packageName, internalDirectory } = appContext;
 
   const ssr = getEntryOptions(
@@ -421,6 +421,7 @@ export function ssrLoaderCombinedModule(
     config.server.ssr,
     config.server.ssrByEntries,
     packageName,
+    isMainEntry,
   );
 
   const ssg = isSSGEntry(config, entryName, entrypoints);

@@ -1,9 +1,11 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable max-lines */
 import path from 'path';
 import { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { getServerRoutes } from '../../src/analyze/getServerRoutes';
 import { Entrypoint } from '../../src/analyze/getFileSystemEntry';
-import { NormalizedConfig } from '../../src/types';
+import { AppNormalizedConfig } from '../../src/types';
 
 describe('get server routes', () => {
   const appContext: any = {
@@ -33,7 +35,7 @@ describe('get server routes', () => {
           output: outputConfig,
           server: serverConfig,
           html: {},
-        } as unknown as NormalizedConfig,
+        } as AppNormalizedConfig<'shared'>,
       },
     );
 

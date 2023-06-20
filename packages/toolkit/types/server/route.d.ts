@@ -1,6 +1,8 @@
 export interface ServerRoute {
   // modern js web entry name
   entryName?: string;
+  // flag is main entry
+  isMainEntry: boolean;
   // the url path for request match
   urlPath: string;
   // the default resource file to response to route

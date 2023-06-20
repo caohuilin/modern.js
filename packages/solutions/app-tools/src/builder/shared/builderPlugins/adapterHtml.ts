@@ -98,6 +98,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
         modernConfig.html.title,
         modernConfig.html.titleByEntries,
         appContext.packageName,
+        appContext.isMainEntry,
       ),
       mountId: modernConfig.html.mountId,
       ...getEntryOptions<any>(

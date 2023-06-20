@@ -120,6 +120,7 @@ const collectHtmlRoutes = (
   config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const {
+    source: { mainEntryName },
     html: { disableHtmlFolder },
     output: { distPath: { html: htmlPath } = {} },
     server: { baseUrl, routes, ssr, ssrByEntries },
@@ -130,12 +131,13 @@ const collectHtmlRoutes = (
   const workerSSR = deploy?.worker?.ssr;
 
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
-    (previous, { entryName }) => {
+    (previous, { entryName, isMainEntry }) => {
       const entryOptions = getEntryOptions(
         entryName,
         ssr,
         ssrByEntries,
         packageName,
+        isMainEntry,
       );
       const isSSR = Boolean(entryOptions);
       const isWorker = Boolean(workerSSR);
@@ -144,8 +146,11 @@ const collectHtmlRoutes = (
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
-        urlPath: `/${entryName === MAIN_ENTRY_NAME ? '' : entryName}`,
+        urlPath: `/${
+          entryName === (mainEntryName || MAIN_ENTRY_NAME) ? '' : entryName
+        }`,
         entryName,
+        isMainEntry: entryName === (mainEntryName || MAIN_ENTRY_NAME),
         entryPath: removeLeadingSlash(
           path.posix.normalize(
             `${htmlPath}/${entryName}${
