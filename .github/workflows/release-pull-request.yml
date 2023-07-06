@@ -15,8 +15,7 @@ on:
         - latest
 
   schedule:
-    # 00:00 AM Beijing Time on every Thursday
-    - cron: "0 3 * * 4"
+    - cron: "0 4 * * 4"
 jobs:
   release:
     name: Create Release Pull Request
