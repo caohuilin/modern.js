@@ -1693,8 +1693,8 @@ importers:
         specifier: workspace:*
         version: link:../../review/tsconfig
       '@rspress/shared':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.10
+        version: 0.0.10
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -1721,8 +1721,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.10
+        version: 0.0.10
       '@types/fs-extra':
         specifier: ^9
         version: 9.0.13
@@ -1760,8 +1760,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.10
+        version: 0.0.10
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -13401,14 +13401,6 @@ packages:
       '@modern-js/builder': link:packages/builder/builder
       '@modern-js/builder-rspack-provider': link:packages/builder/builder-rspack-provider
       chalk: 4.1.2
-      unified: 10.1.2
-    dev: true
-
-  /@rspress/shared@0.0.6:
-    resolution: {integrity: sha512-xZ97GwDNDM5p7wGxp/1Lpiob6h7bBell2Slr7jaABUjiMvM004GxNrEooHGG1l0rafi/L+DKlCdMPgeQ9oVVgw==}
-    dependencies:
-      '@modern-js/builder': link:packages/builder/builder
-      '@modern-js/builder-rspack-provider': link:packages/builder/builder-rspack-provider
       unified: 10.1.2
     dev: true
 
