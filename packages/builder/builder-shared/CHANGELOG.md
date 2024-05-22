@@ -1,5 +1,27 @@
 # @modern-js/builder-shared
 
+## 2.35.0
+
+### Patch Changes
+
+- 225f065: fix(builder): assetsRetry should work when htmlPlugin.inject false
+
+  fix(builder): 在设置 htmlPlugin.inject false 时，assetsRetry 可生效
+
+- 0300daf: feat(builder): allow to use more optimization options in bundlerChain
+
+  feat(builder): 支持在 bundlerChain 中使用更多 optimization 选项
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/prod-server@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

@@ -1,5 +1,24 @@
 # @modern-js/builder-webpack-provider
 
+## 2.35.0
+
+### Patch Changes
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [15b834f]
+- Updated dependencies [4027a6a]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/babel-preset-app@2.35.0
+  - @modern-js/babel-preset-base@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

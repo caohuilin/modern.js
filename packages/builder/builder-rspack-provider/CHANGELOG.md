@@ -1,5 +1,26 @@
 # @modern-js/builder-rspack-provider
 
+## 2.35.0
+
+### Patch Changes
+
+- e2def6e: feat(builder): update rspack to 0.3.2 and support output.charset ascii
+
+  feat(builder): 更新 rspack 到 0.3.2，并支持 output.charset ascii 配置
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [15b834f]
+- Updated dependencies [4027a6a]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes
