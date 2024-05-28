@@ -1,32 +1,23 @@
-import {
-  getEntryOptions,
-  createRuntimeExportsUtils,
-  isRouterV5 as isV5,
-} from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-const PLUGIN_IDENTIFIER = 'router';
-
-const ROUTES_IDENTIFIER = 'routes';
+import path from 'path';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
+import type { Entrypoint, Route } from '@modern-js/types';
+import { hasNestedRoutes, isRouteEntry } from './route';
+import { generatorRegisterCode, generatorRouteCode } from './code';
+import * as templates from './template';
+import { walk } from './nestedRoutes';
+import { NESTED_ROUTES_DIR } from './constants';
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    const runtimeConfigMap = new Map<string, any>();
-
-    let pluginsExportsUtils: any;
-
+    const { internalDirectory, internalSrcAlias, srcDirectory } =
+      api.useAppContext();
     return {
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRouteEntry(path) };
+      },
       config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
         return {
           source: {
             include: [
@@ -37,82 +28,85 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
               /node_modules\/react-router-dom/,
               /node_modules\/@remix-run\/router/,
             ],
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
           },
         };
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
-        const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
-
-        const runtimeConfig = getEntryOptions(
-          entryName,
-          isMainEntry,
-          userConfig.runtime,
-          userConfig.runtimeByEntries,
-          packageName,
-        );
-
-        runtimeConfigMap.set(entryName, runtimeConfig);
-        if (runtimeConfig?.router) {
-          if (!isV5(userConfig)) {
-            imports.push({
-              value: '@modern-js/runtime/plugins',
-              specifiers: [{ imported: PLUGIN_IDENTIFIER }],
-            });
+      async beforeCreateCompiler() {
+        const { metaName, entrypoints } = api.useAppContext();
+        entrypoints.forEach(entrypoint => {
+          if (entrypoint.nestedRoutesEntry) {
+            generatorRegisterCode(
+              internalDirectory,
+              entrypoint.entryName,
+              templates.runtimeGlobalContext({
+                metaName,
+              }),
+            );
           }
-        } else if (fileSystemRoutes) {
-          throw new Error(
-            `should enable runtime.router for entry ${entryName}`,
-          );
-        }
-        return {
-          entrypoint,
-          imports,
-        };
+        });
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
-        const { serverRoutes } = api.useAppContext();
-        const userConfig = api.useResolvedConfigContext();
-        const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig.router && !isV5(userConfig)) {
-          // Todo: plugin-router best to only handle manage client route.
-          // here support base server route usage, part for compatibility
-          const serverBase = serverRoutes
-            .filter((route: ServerRoute) => route.entryName === entryName)
-            .map(route => route.urlPath)
-            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+      async modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {
+        // nest route
+        const hookRunners = api.useHookRunners();
+        const config = api.useConfigContext();
+        await Promise.all(
+          entrypoints.map(async entrypoint => {
+            const { isAutoMount } = entrypoint;
+            if (isAutoMount) {
+              const isHasNestedRoutes = hasNestedRoutes(
+                entrypoint.absoluteEntryDir!,
+              );
+              if (isHasNestedRoutes) {
+                entrypoint.nestedRoutesEntry = path.join(
+                  entrypoint.absoluteEntryDir!,
+                  NESTED_ROUTES_DIR,
+                );
+                const initialRoutes: Route[] = [];
+                let nestedRoutes = await walk(
+                  entrypoint.nestedRoutesEntry,
+                  entrypoint.nestedRoutesEntry,
+                  {
+                    name: internalSrcAlias,
+                    basename: srcDirectory,
+                  },
+                  entrypoint.entryName,
+                  entrypoint.isMainEntry,
+                );
+                if (nestedRoutes) {
+                  if (!Array.isArray(nestedRoutes)) {
+                    nestedRoutes = [nestedRoutes];
+                  }
+                  for (const route of nestedRoutes) {
+                    initialRoutes.unshift(route);
+                  }
+                }
 
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              serverBase,
-              ...runtimeConfig.router,
-              routesConfig: fileSystemRoutes
-                ? `{ ${ROUTES_IDENTIFIER}, globalApp: App }`
-                : undefined,
-            }).replace(
-              /"routesConfig"\s*:\s*"((\S|\s)+)"/g,
-              '"routesConfig": $1,',
-            ),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
-      },
-      addRuntimeExports() {
-        const userConfig = api.useResolvedConfigContext();
-        if (!isV5(userConfig)) {
-          pluginsExportsUtils.addExport(
-            `export { default as router } from '@modern-js/runtime/router'`,
-          );
-        }
+                const { routes } = await hookRunners.modifyFileSystemRoutes({
+                  entrypoint,
+                  routes: initialRoutes as any,
+                });
+                const { code } = await hookRunners.beforeGenerateRoutes({
+                  entrypoint,
+                  code: await templates.fileSystemRoutes({
+                    routes,
+                    // ssrMode: useSSG ? 'string' : mode,
+                    nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+                    entryName: entrypoint.entryName,
+                    internalDirectory,
+                    splitRouteChunks: config?.output?.splitRouteChunks,
+                  }),
+                });
+                generatorRouteCode(
+                  internalDirectory,
+                  entrypoint.entryName,
+                  code,
+                );
+              }
+            }
+            return entrypoint;
+          }),
+        );
+        return { entrypoints };
       },
     };
   },

@@ -8,10 +8,12 @@ import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {
   modifyEntryExport: createAsyncWaterfall(),
-  modifyEntryImports: createAsyncWaterfall(),
-  modifyEntryRuntimePlugins: createAsyncWaterfall(),
+  // modifyEntryImports: createAsyncWaterfall(),
+  // modifyEntryRuntimePlugins: createAsyncWaterfall(),
   modifyEntryRenderFunction: createAsyncWaterfall(),
   modifyAsyncEntry: createAsyncWaterfall(),
+  modifyEntrypoints: createAsyncWaterfall(),
+  checkEntryPoint: createAsyncWaterfall(),
   modifyFileSystemRoutes: createAsyncWaterfall(),
   modifyServerRoutes: createAsyncWaterfall(),
   htmlPartials: createAsyncWaterfall(),
@@ -27,7 +29,6 @@ export const hooks: AppToolsHooks = {
   beforeBuild: createAsyncWorkflow(),
   afterBuild: createAsyncWorkflow(),
   beforeDeploy: createAsyncWorkflow(),
-  deploy: createAsyncWorkflow(),
   afterDeploy: createAsyncWorkflow(),
 
   beforeRestart: createAsyncWorkflow(),

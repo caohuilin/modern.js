@@ -5,20 +5,16 @@ import {
   type RouterState,
 } from '@modern-js/runtime-utils/remix-router';
 import { createContext } from 'react';
-import { createLoaderManager } from './core/loader/loaderManager';
-import { runtime } from './core/plugin';
-import { RouteManifest } from './router/runtime/types';
-import { SSRServerContext } from './ssr/serverRender/types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
-  loaderManager: ReturnType<typeof createLoaderManager>;
-  runner: ReturnType<typeof runtime.init>;
+  // loaderManager: ReturnType<typeof createLoaderManager>;
+  // runner: ReturnType<typeof runtime.init>;
   // ssr type
-  ssrContext?: SSRServerContext;
+  // ssrContext?: SSRServerContext;
   // state type
   store?: Store;
-  routeManifest: RouteManifest;
+  // routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
   /**
    * private method
@@ -42,8 +38,8 @@ export const ServerRouterContext = createContext({} as any);
 export interface BaseTRuntimeContext {
   initialData?: Record<string, unknown>;
   // ssr type
-  request?: SSRServerContext['request'];
-  response?: SSRServerContext['response'];
+  // request?: SSRServerContext['request'];
+  // response?: SSRServerContext['response'];
   // store type
   store?: Store;
   router?: {

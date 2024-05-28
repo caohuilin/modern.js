@@ -4,7 +4,7 @@ import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
-import { registerCompiler } from '../utils/register';
+import { registerCompiler } from '../utils/compiler';
 
 export const build = async (
   api: PluginAPI<AppTools<'shared'>>,

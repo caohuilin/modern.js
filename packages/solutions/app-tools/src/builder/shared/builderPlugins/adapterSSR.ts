@@ -11,7 +11,7 @@ import type {
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
-import { getServerCombinedModueFile } from '../../../analyze/utils';
+import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -149,7 +149,7 @@ function applyRouterPlugin<B extends Bundler>(
     chain.plugin(pluginName).use(RouterPlugin, [
       {
         HtmlBundlerPlugin,
-        enableInlineRouteManifests: inlineRouteManifests!,
+        enableInlineRouteManifests: inlineRouteManifests,
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
         scriptLoading: normalizedConfig.html?.scriptLoading,

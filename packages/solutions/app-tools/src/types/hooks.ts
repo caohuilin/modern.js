@@ -16,38 +16,39 @@ import type { Stats, MultiStats } from '@rsbuild/shared';
 import type { Rspack, webpack } from '@modern-js/uni-builder';
 import { Bundler } from './utils';
 
-export interface ImportSpecifier {
-  local?: string;
-  imported?: string;
-}
+// export interface ImportSpecifier {
+//   local?: string;
+//   imported?: string;
+// }
 
-export interface ImportStatement {
-  specifiers: ImportSpecifier[];
-  value: string;
-  initialize?: string;
-}
+// export interface ImportStatement {
+//   specifiers: ImportSpecifier[];
+//   value: string;
+//   initialize?: string;
+// }
 
-export interface RuntimePlugin {
-  name: string;
-  options: string;
-  args?: string;
-}
+// export interface RuntimePlugin {
+//   name: string;
+//   options: string;
+//   args?: string;
+// }
+
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;
   }>;
-  modifyEntryImports: AsyncWaterfall<{
-    imports: ImportStatement[];
-    entrypoint: Entrypoint;
-  }>;
-  modifyEntryRuntimePlugins: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    plugins: RuntimePlugin[];
-    bundlerConfigs?: B extends 'rspack'
-      ? Rspack.Configuration[]
-      : webpack.Configuration[];
-  }>;
+  //   modifyEntryImports: AsyncWaterfall<{
+  //     imports: ImportStatement[];
+  //     entrypoint: Entrypoint;
+  //   }>;
+  //   modifyEntryRuntimePlugins: AsyncWaterfall<{
+  //     entrypoint: Entrypoint;
+  //     plugins: RuntimePlugin[];
+  //     bundlerConfigs?: B extends 'rspack'
+  //       ? Rspack.Configuration[]
+  //       : webpack.Configuration[];
+  //   }>;
   modifyEntryRenderFunction: AsyncWaterfall<{
     entrypoint: Entrypoint;
     code: string;
@@ -59,6 +60,13 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
     routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
+  }>;
+  modifyEntrypoints: AsyncWaterfall<{
+    entrypoints: Entrypoint[];
+  }>;
+  checkEntryPoint: AsyncWaterfall<{
+    path: string;
+    entry: false | string;
   }>;
   modifyServerRoutes: AsyncWaterfall<{
     routes: ServerRoute[];
@@ -106,7 +114,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   >;
   afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
-  deploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 
   beforeRestart: AsyncWorkflow<void, void>;

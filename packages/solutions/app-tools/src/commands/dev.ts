@@ -2,14 +2,13 @@ import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { initProdMiddlewares } from '@modern-js/prod-server';
-import { registerCompiler } from '../utils/register';
-import { printInstructions } from '../utils/printInstructions';
-import { setServer } from '../utils/createServer';
+import { registerCompiler } from '../utils/compiler';
+import { printInstructions } from '../utils/instruction';
+import { setServer, getServerInternalPlugins } from '../utils/server';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
-import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export interface ExtraServerOptions {
   useSSRWorker?: boolean;
@@ -110,6 +109,6 @@ export const dev = async (
       initProdMiddlewares,
     });
     // TODO: set correct server
-    setServer(server as any);
+    setServer(server);
   }
 };

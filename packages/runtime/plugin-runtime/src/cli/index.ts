@@ -1,26 +1,52 @@
-import { isReact18, cleanRequireCache } from '@modern-js/utils';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { statePlugin } from '../state/cli';
-import { ssrPlugin } from '../ssr/cli';
+import path from 'path';
+import { isReact18 } from '@modern-js/utils';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import { routerPlugin } from '../router/cli';
-import { documentPlugin } from '../document/cli';
+import { generateCode } from './code';
+import { pluginAlias } from './alias';
+import { isRuntimeEntry } from './entry';
+import { ENTRY_POINT_FILE_NAME } from './constants';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
-  post: [
-    '@modern-js/plugin-ssr',
-    '@modern-js/plugin-state',
-    '@modern-js/plugin-router',
-    '@modern-js/plugin-document',
-    '@modern-js/plugin-design-token',
-  ],
+  post: ['@modern-js/plugin-router'],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [ssrPlugin(), statePlugin(), routerPlugin(), documentPlugin()],
+  usePlugins: [routerPlugin()],
   setup: api => {
     return {
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRuntimeEntry(path) };
+      },
+      modifyEntrypoints({ entrypoints }) {
+        const { internalDirectory } = api.useAppContext();
+        const newEntryPoints = entrypoints.map(entrypoint => {
+          entrypoint.internalEntry = path.resolve(
+            internalDirectory,
+            `./${entrypoint.entryName}/${ENTRY_POINT_FILE_NAME}`,
+          );
+          return entrypoint;
+        });
+        return { entrypoints: newEntryPoints };
+      },
+      async beforeCreateCompiler() {
+        const appContext = api.useAppContext();
+        const resolvedConfig = api.useResolvedConfigContext();
+        generateCode({
+          appContext,
+          config: resolvedConfig,
+        });
+      },
+      prepare() {
+        const { builder, entrypoints, internalDirectory, metaName } =
+          api.useAppContext();
+        builder?.addPlugins([
+          pluginAlias({ entrypoints, internalDirectory, metaName }),
+        ]);
+      },
       config() {
-        const appDir = api.useAppContext().appDirectory;
-        process.env.IS_REACT18 = isReact18(appDir).toString();
+        const { appDirectory } = api.useAppContext();
+        process.env.IS_REACT18 = isReact18(appDirectory).toString();
+
         return {
           runtime: {},
           runtimeByEntries: {},
@@ -46,11 +72,11 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         };
       },
       async beforeRestart() {
-        cleanRequireCache([
-          require.resolve('../state/cli'),
-          require.resolve('../router/cli'),
-          require.resolve('../ssr/cli'),
-        ]);
+        // cleanRequireCache([
+        //   require.resolve('../state/cli'),
+        //   require.resolve('../router/cli'),
+        //   require.resolve('../ssr/cli'),
+        // ]);
       },
     };
   },

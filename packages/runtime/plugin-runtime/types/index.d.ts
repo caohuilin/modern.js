@@ -1,6 +1,6 @@
 import { StateConfig } from '../dist/types';
 
-declare module '@modern-js/app-tools' {
+declare module '@modern-js/app-tools-v2' {
   interface RuntimeUserConfig {
     state?: StateConfig | boolean;
   }
