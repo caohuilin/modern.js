@@ -7044,6 +7044,21 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
 
+  tests/integration/runtime-v2/app-route:
+    dependencies:
+      '@modern-js/app-tools-v2':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools-v2
+      '@modern-js/runtime-v2':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime-v2/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
   tests/integration/runtime/fixtures/file-based-router:
     dependencies:
       '@modern-js/app-tools':
