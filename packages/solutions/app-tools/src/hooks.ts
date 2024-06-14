@@ -8,10 +8,6 @@ import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {
   _internalRuntimePlugins: createAsyncWaterfall(),
-  modifyEntryExport: createAsyncWaterfall(),
-  modifyEntryImports: createAsyncWaterfall(),
-  modifyEntryRenderFunction: createAsyncWaterfall(),
-  modifyAsyncEntry: createAsyncWaterfall(),
   modifyFileSystemRoutes: createAsyncWaterfall(),
   modifyServerRoutes: createAsyncWaterfall(),
   /** add entry point info to entrypoints array */

@@ -38,22 +38,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     entryName: string;
     plugins: RuntimePlugin[];
   }>;
-  modifyEntryExport: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    exportStatement: string;
-  }>;
-  modifyEntryImports: AsyncWaterfall<{
-    imports: ImportStatement[];
-    entrypoint: Entrypoint;
-  }>;
-  modifyEntryRenderFunction: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    code: string;
-  }>;
-  modifyAsyncEntry: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    code: string;
-  }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
     routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];

@@ -2,13 +2,7 @@ import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
-import {
-  getRuntimeConfig,
-  makeProvider,
-  makeRenderFunction,
-  setRuntimeConfig,
-  generateAsyncEntry,
-} from './utils';
+import { getRuntimeConfig, setRuntimeConfig } from './utils';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 
@@ -40,7 +34,6 @@ export function getDefaultMicroFrontedConfig(
 
 export const garfishPlugin = ({
   pluginName = '@modern-js/plugin-garfish',
-  runtimePluginName = '@modern-js/runtime/plugins',
 } = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
@@ -217,95 +210,6 @@ export const garfishPlugin = ({
         const otherExportStatement = `export { hoistNonReactStatics } from '${pluginName}/deps'`;
         logger('otherExportStatement', otherExportStatement);
         pluginsExportsUtils.addExport(otherExportStatement);
-      },
-      modifyEntryImports({ entrypoint, imports }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        const { masterApp } = getRuntimeConfig(config);
-        if (masterApp) {
-          imports.push({
-            value: runtimePluginName,
-            specifiers: [
-              {
-                imported: 'garfish',
-              },
-            ],
-          });
-          imports.push({
-            value: runtimePluginName,
-            specifiers: [
-              {
-                imported: 'masterApp',
-              },
-            ],
-          });
-        }
-        imports.push({
-          value: runtimePluginName,
-          specifiers: [
-            {
-              imported: 'hoistNonReactStatics',
-            },
-          ],
-        });
-
-        imports.push({
-          value: 'react-dom',
-          specifiers: [
-            {
-              imported: 'unmountComponentAtNode',
-            },
-            {
-              imported: 'createPortal',
-            },
-          ],
-        });
-        return { imports, entrypoint };
-      },
-      modifyEntryRenderFunction({ entrypoint, code }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        if (!config?.deploy?.microFrontend) {
-          return { entrypoint, code };
-        }
-        const nCode = makeRenderFunction(code);
-        logger('makeRenderFunction', nCode);
-        return {
-          entrypoint,
-          code: nCode,
-        };
-      },
-      modifyAsyncEntry({ entrypoint, code }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        let finalCode = code;
-        if (config?.deploy?.microFrontend && config?.source?.enableAsyncEntry) {
-          finalCode = generateAsyncEntry(code);
-          return {
-            entrypoint,
-            code: `${finalCode}`,
-          };
-        }
-        return {
-          entrypoint,
-          code: finalCode,
-        };
-      },
-      modifyEntryExport({ entrypoint, exportStatement }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        if (config?.deploy?.microFrontend) {
-          const exportStatementCode = makeProvider();
-          logger('exportStatement', exportStatementCode);
-          return {
-            entrypoint,
-            exportStatement: exportStatementCode,
-          };
-        }
-        return {
-          entrypoint,
-          exportStatement,
-        };
       },
     };
   },
