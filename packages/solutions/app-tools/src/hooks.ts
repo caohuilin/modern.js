@@ -7,9 +7,9 @@ import { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {
+  _internalRuntimePlugins: createAsyncWaterfall(),
   modifyEntryExport: createAsyncWaterfall(),
   modifyEntryImports: createAsyncWaterfall(),
-  modifyEntryRuntimePlugins: createAsyncWaterfall(),
   modifyEntryRenderFunction: createAsyncWaterfall(),
   modifyAsyncEntry: createAsyncWaterfall(),
   modifyFileSystemRoutes: createAsyncWaterfall(),

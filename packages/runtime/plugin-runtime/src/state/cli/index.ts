@@ -61,23 +61,6 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
           imports,
         };
       },
-
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const stateOptions = stateConfigMap.get(entrypoint.entryName);
-
-        if (stateOptions) {
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: `${JSON.stringify(
-              stateConfigMap.get(entrypoint.entryName),
-            )}`,
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
-      },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as state } from '@modern-js/runtime/model'`,

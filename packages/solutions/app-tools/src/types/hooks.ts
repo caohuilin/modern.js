@@ -29,10 +29,15 @@ export interface ImportStatement {
 
 export interface RuntimePlugin {
   name: string;
-  options: string;
-  args?: string;
+  implementation: string;
+  config: Record<string, any>;
 }
+
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
+  _internalRuntimePlugins: AsyncWaterfall<{
+    entryName: string;
+    plugins: RuntimePlugin[];
+  }>;
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;
@@ -40,13 +45,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyEntryImports: AsyncWaterfall<{
     imports: ImportStatement[];
     entrypoint: Entrypoint;
-  }>;
-  modifyEntryRuntimePlugins: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    plugins: RuntimePlugin[];
-    bundlerConfigs?: B extends 'rspack'
-      ? Rspack.Configuration[]
-      : webpack.Configuration[];
   }>;
   modifyEntryRenderFunction: AsyncWaterfall<{
     entrypoint: Entrypoint;

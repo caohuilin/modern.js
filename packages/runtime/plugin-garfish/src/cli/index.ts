@@ -262,23 +262,6 @@ export const garfishPlugin = ({
         });
         return { imports, entrypoint };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        const { masterApp } = getRuntimeConfig(config);
-        if (masterApp) {
-          logger('garfishPlugin options', masterApp);
-          plugins.push({
-            name: 'garfish',
-            args: 'masterApp',
-            options:
-              masterApp === true
-                ? JSON.stringify({})
-                : JSON.stringify(masterApp),
-          });
-        }
-        return { entrypoint, plugins };
-      },
       modifyEntryRenderFunction({ entrypoint, code }) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const config = useResolvedConfigContext();

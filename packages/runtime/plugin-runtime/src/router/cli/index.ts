@@ -1,9 +1,7 @@
 import {
-  getEntryOptions,
   createRuntimeExportsUtils,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { isRouteEntry } from './entry';
 import { handleFileChange, handleModifyEntrypoints } from './handler';
@@ -11,16 +9,10 @@ import { handleFileChange, handleModifyEntrypoints } from './handler';
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
 
-const PLUGIN_IDENTIFIER = 'router';
-
-const ROUTES_IDENTIFIER = 'routes';
-
 export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    const runtimeConfigMap = new Map<string, any>();
-
     let pluginsExportsUtils: any;
 
     return {
@@ -54,69 +46,6 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
       async modifyEntrypoints({ entrypoints }) {
         const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
         return { entrypoints: newEntryPoints };
-      },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
-        const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
-
-        const runtimeConfig = getEntryOptions(
-          entryName,
-          isMainEntry,
-          userConfig.runtime,
-          userConfig.runtimeByEntries,
-          packageName,
-        );
-
-        runtimeConfigMap.set(entryName, runtimeConfig);
-        if (runtimeConfig?.router) {
-          if (!isV5(userConfig)) {
-            imports.push({
-              value: '@modern-js/runtime/plugins',
-              specifiers: [{ imported: PLUGIN_IDENTIFIER }],
-            });
-          }
-        } else if (fileSystemRoutes) {
-          throw new Error(
-            `should enable runtime.router for entry ${entryName}`,
-          );
-        }
-        return {
-          entrypoint,
-          imports,
-        };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
-        const { serverRoutes } = api.useAppContext();
-        const userConfig = api.useResolvedConfigContext();
-        const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig.router && !isV5(userConfig)) {
-          // Todo: plugin-router best to only handle manage client route.
-          // here support base server route usage, part for compatibility
-          const serverBase = serverRoutes
-            .filter((route: ServerRoute) => route.entryName === entryName)
-            .map(route => route.urlPath)
-            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
-
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              serverBase,
-              ...runtimeConfig.router,
-              routesConfig: fileSystemRoutes
-                ? `{ ${ROUTES_IDENTIFIER}, globalApp: App }`
-                : undefined,
-            }).replace(
-              /"routesConfig"\s*:\s*"((\S|\s)+)"/g,
-              '"routesConfig": $1,',
-            ),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();

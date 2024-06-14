@@ -3,13 +3,10 @@ import {
   createRuntimeExportsUtils,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import './types';
 
 const PLUGIN_IDENTIFIER = 'router';
-
-const ROUTES_IDENTIFIER = 'routes';
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',
@@ -72,40 +69,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         return {
           entrypoint,
           imports,
-        };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
-        const { serverRoutes } = api.useAppContext();
-        const runtimeConfig = runtimeConfigMap.get(entryName);
-
-        const userConfig = api.useResolvedConfigContext();
-
-        if (isV5(userConfig)) {
-          // Todo: plugin-router best to only handle manage client route.
-          // here support base server route usage, part for compatibility
-          const serverBase = serverRoutes
-            .filter((route: ServerRoute) => route.entryName === entryName)
-            .map(route => route.urlPath)
-            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
-
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              serverBase,
-              ...runtimeConfig.router,
-              routesConfig: fileSystemRoutes
-                ? `{ ${ROUTES_IDENTIFIER}, globalApp: App }`
-                : undefined,
-            }).replace(
-              /"routesConfig"\s*:\s*"((\S|\s)+)"/g,
-              '"routesConfig": $1,',
-            ),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
         };
       },
       addRuntimeExports() {

@@ -43,7 +43,7 @@ const init = createAsyncPipeline<
   {
     context: RuntimeContext;
   },
-  RuntimeContext
+  unknown
 >();
 
 /**

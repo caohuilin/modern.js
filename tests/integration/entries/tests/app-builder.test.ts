@@ -13,7 +13,7 @@ describe('app-builder', () => {
       existsSync(path.join(appDir, 'dist/html/entry-1/index.html')),
     ).toBeTruthy();
     expect(
-      existsSync(path.join(appDir, 'dist/html/entry-1/main.jsx')),
+      existsSync(path.join(appDir, 'dist/html/entry-1/index.jsx')),
     ).toBeFalsy();
   });
 });

@@ -195,38 +195,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           imports,
         };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins, bundlerConfigs }) {
-        if (ssrConfigMap.get(entrypoint.entryName)) {
-          const chunkLoadingGlobal = bundlerConfigs?.find(
-            config => config.name === 'client',
-          )?.output?.chunkLoadingGlobal;
-          const config = api.useResolvedConfigContext();
-          const { enableInlineScripts, enableInlineStyles } = config.output;
-          const { crossorigin, scriptLoading } = config.html;
-
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              scriptLoading,
-              ...(ssrConfigMap.get(entrypoint.entryName) || {}),
-              crossorigin,
-              chunkLoadingGlobal,
-              enableInlineScripts:
-                typeof enableInlineScripts === 'function'
-                  ? undefined
-                  : enableInlineScripts,
-              enableInlineStyles:
-                typeof enableInlineStyles === 'function'
-                  ? undefined
-                  : enableInlineStyles,
-            }),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
-      },
       modifyEntryExport({ entrypoint, exportStatement }) {
         if (ssrConfigMap.get(entrypoint.entryName)) {
           return {

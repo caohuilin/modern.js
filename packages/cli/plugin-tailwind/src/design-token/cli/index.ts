@@ -75,33 +75,6 @@ export const designTokenPlugin = (
           imports,
         };
       },
-
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const userConfig = api.useResolvedConfigContext();
-        const designSystem = userConfig.source?.designSystem ?? {};
-        let useSCThemeProvider = true;
-        if (designSystem) {
-          // when designSystem exist, designToken.styledComponents`s default value is false.
-          useSCThemeProvider = designSystem?.supportStyledComponents || false;
-        }
-
-        if (
-          typeof designSystem === 'object' &&
-          designSystem.supportStyledComponents
-        ) {
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: `{token: designTokens, useStyledComponentsThemeProvider: ${
-              useSCThemeProvider ? 'true' : 'false'
-            }, useDesignTokenContext: false}`,
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
-      },
-
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as designToken } from '${pluginName}/runtime-design-token'`,

@@ -22,7 +22,6 @@ import {
   APP_INIT_EXPORTED,
   APP_INIT_IMPORTED,
 } from './constants';
-import { generateIndexCode } from './generateCode';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -32,7 +31,7 @@ export default ({
   bundler: 'webpack' | 'rspack';
 }): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-analyze',
-
+  post: ['@modern-js/runtime'],
   setup: api => {
     let pagesDir: string[] = [];
     let nestedRouteEntries: string[] = [];
@@ -74,17 +73,12 @@ export default ({
           return;
         }
 
-        const [
-          { getBundleEntry },
-          { getServerRoutes },
-          { generateCode },
-          { getHtmlTemplate },
-        ] = await Promise.all([
-          import('./getBundleEntry'),
-          import('./getServerRoutes'),
-          import('./generateCode'),
-          import('./getHtmlTemplate'),
-        ]);
+        const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
+          await Promise.all([
+            import('./getBundleEntry'),
+            import('./getServerRoutes'),
+            import('./getHtmlTemplate'),
+          ]);
 
         // get runtime entry points
         const { entrypoints } = await hookRunners.modifyEntrypoints({
@@ -124,13 +118,6 @@ export default ({
           // should only watch file-based routes
           .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
-
-        const { importsStatemets } = await generateCode(
-          appContext,
-          resolvedConfig,
-          entrypoints,
-          api,
-        );
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
@@ -197,14 +184,6 @@ export default ({
 
           builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();
-            await generateIndexCode({
-              appContext,
-              config: resolvedConfig,
-              entrypoints,
-              api,
-              importsStatemets,
-              bundlerConfigs,
-            });
 
             // run modernjs framework `beforeCreateCompiler` hook
             await hookRunners.beforeCreateCompiler({
