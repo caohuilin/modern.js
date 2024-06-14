@@ -14,6 +14,14 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
     let pluginsExportsUtils: any;
 
     return {
+      _internalRuntimePlugins({ entryName, plugins }) {
+        plugins.push({
+          name: 'state',
+          implementation: '@modern-js/runtime/model',
+          config: {},
+        });
+        return { entryName, plugins };
+      },
       config() {
         const appContext = api.useAppContext();
 
