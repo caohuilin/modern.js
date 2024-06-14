@@ -31,10 +31,12 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
       modifyEntrypoints({ entrypoints }) {
         const { internalDirectory } = api.useAppContext();
         const newEntryPoints = entrypoints.map(entrypoint => {
-          entrypoint.internalEntry = path.resolve(
-            internalDirectory,
-            `./${entrypoint.entryName}/${ENTRY_POINT_FILE_NAME}`,
-          );
+          if (entrypoint.isAutoMount) {
+            entrypoint.internalEntry = path.resolve(
+              internalDirectory,
+              `./${entrypoint.entryName}/${ENTRY_POINT_FILE_NAME}`,
+            );
+          }
           return entrypoint;
         });
         return { entrypoints: newEntryPoints };
