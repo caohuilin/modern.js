@@ -3,8 +3,10 @@ import {
   isRouterV5 as isV5,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { ServerRoute } from '@modern-js/types';
 import { isRouteEntry } from './entry';
 import { handleFileChange, handleModifyEntrypoints } from './handler';
+import * as templates from './code/templates';
 
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
@@ -16,6 +18,20 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
     let pluginsExportsUtils: any;
 
     return {
+      _internalRuntimePlugins({ entryName, plugins }) {
+        const { serverRoutes } = api.useAppContext();
+        const serverBase = serverRoutes
+          .filter((route: ServerRoute) => route.entryName === entryName)
+          .map(route => route.urlPath)
+          .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+
+        plugins.push({
+          name: 'router',
+          implementation: '@modern-js/runtime/router',
+          config: { serverBase },
+        });
+        return { entryName, plugins };
+      },
       checkEntryPoint({ path, entry }) {
         return { path, entry: entry || isRouteEntry(path) };
       },
@@ -46,6 +62,24 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
       async modifyEntrypoints({ entrypoints }) {
         const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
         return { entrypoints: newEntryPoints };
+      },
+      async beforeCreateCompiler() {
+        const { metaName, entrypoints } = api.useAppContext();
+        const { internalDirectory } = api.useAppContext();
+        await Promise.all(
+          entrypoints.map(async entrypoint => {
+            if (entrypoint.nestedRoutesEntry) {
+              const { generatorRegisterCode } = await import('./code');
+              generatorRegisterCode(
+                internalDirectory,
+                entrypoint.entryName,
+                templates.runtimeGlobalContext({
+                  metaName,
+                }),
+              );
+            }
+          }),
+        );
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
