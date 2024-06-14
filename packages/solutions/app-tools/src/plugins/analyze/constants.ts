@@ -1,5 +1,7 @@
 export const INDEX_FILE_NAME = 'index';
 
+export const ENTRY_FILE_NAME = 'entry';
+
 export const FILE_SYSTEM_ROUTES_FILE_NAME = 'routes.js';
 
 export const ENTRY_POINT_FILE_NAME = 'index.jsx';
