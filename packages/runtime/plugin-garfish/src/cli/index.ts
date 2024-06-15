@@ -3,6 +3,7 @@ import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
 import { getRuntimeConfig, setRuntimeConfig } from './utils';
+import { generateCode } from './code';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 
@@ -36,7 +37,7 @@ export const garfishPlugin = ({
   pluginName = '@modern-js/plugin-garfish',
 } = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
-  setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
+  setup: api => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
       resolvedConfig: async config => {
@@ -48,8 +49,7 @@ export const garfishPlugin = ({
           },
         };
         if (masterApp) {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const useConfig = useConfigContext();
+          const useConfig = api.useConfigContext();
           const baseUrl = useConfig?.server?.baseUrl;
           if (Array.isArray(baseUrl)) {
             throw new Error(
@@ -81,12 +81,10 @@ export const garfishPlugin = ({
         return nConfig;
       },
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const useConfig = useConfigContext();
+        const useConfig = api.useConfigContext();
         logger('useConfig', useConfig);
 
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useAppContext();
+        const config = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
           'plugins',
@@ -123,8 +121,7 @@ export const garfishPlugin = ({
             rspack: (config: any) => {
               config.builtins ??= {};
 
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolveOptions = useResolvedConfigContext();
+              const resolveOptions = api.useResolvedConfigContext();
               if (
                 resolveOptions?.deploy?.microFrontend &&
                 !config.externalsType
@@ -139,8 +136,8 @@ export const garfishPlugin = ({
                   .plugin('garfish-banner')
                   .use(bundler.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolveOptions = useResolvedConfigContext();
+
+              const resolveOptions = api.useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
 
@@ -199,8 +196,7 @@ export const garfishPlugin = ({
         };
       },
       addRuntimeExports() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
+        const config = api.useResolvedConfigContext();
         const { masterApp } = getRuntimeConfig(config);
         if (masterApp) {
           const addExportStatement = `export { default as garfish, default as masterApp } from '${pluginName}/runtime'`;
@@ -210,6 +206,15 @@ export const garfishPlugin = ({
         const otherExportStatement = `export { hoistNonReactStatics } from '${pluginName}/deps'`;
         logger('otherExportStatement', otherExportStatement);
         pluginsExportsUtils.addExport(otherExportStatement);
+      },
+      async beforeCreateCompiler() {
+        const resolveOptions = api.useResolvedConfigContext();
+        if (resolveOptions?.deploy?.microFrontend) {
+          const appContext = api.useAppContext();
+          const resolvedConfig = api.useResolvedConfigContext();
+          const { mountId } = resolvedConfig.html;
+          await generateCode(appContext, mountId);
+        }
       },
     };
   },
