@@ -5,8 +5,11 @@ import {
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { ServerRoute } from '@modern-js/types';
 import { isRouteEntry } from './entry';
-import { handleFileChange, handleModifyEntrypoints } from './handler';
-import * as templates from './code/templates';
+import {
+  handleFileChange,
+  handleGeneratorEntryCode,
+  handleModifyEntrypoints,
+} from './handler';
 
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
@@ -18,10 +21,12 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
     let pluginsExportsUtils: any;
 
     return {
-      _internalRuntimePlugins({ entryName, plugins }) {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
         const { serverRoutes } = api.useAppContext();
         const serverBase = serverRoutes
-          .filter((route: ServerRoute) => route.entryName === entryName)
+          .filter(
+            (route: ServerRoute) => route.entryName === entrypoint.entryName,
+          )
           .map(route => route.urlPath)
           .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
 
@@ -30,7 +35,7 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
           implementation: '@modern-js/runtime/router',
           config: { serverBase },
         });
-        return { entryName, plugins };
+        return { entrypoint, plugins };
       },
       checkEntryPoint({ path, entry }) {
         return { path, entry: entry || isRouteEntry(path) };
@@ -63,23 +68,9 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
         return { entrypoints: newEntryPoints };
       },
-      async beforeCreateCompiler() {
-        const { metaName, entrypoints } = api.useAppContext();
-        const { internalDirectory } = api.useAppContext();
-        await Promise.all(
-          entrypoints.map(async entrypoint => {
-            if (entrypoint.nestedRoutesEntry) {
-              const { generatorRegisterCode } = await import('./code');
-              generatorRegisterCode(
-                internalDirectory,
-                entrypoint.entryName,
-                templates.runtimeGlobalContext({
-                  metaName,
-                }),
-              );
-            }
-          }),
-        );
+      async generateEntryCode({ entrypoints }) {
+        const newEntryPoints = await handleGeneratorEntryCode(api, entrypoints);
+        return { entrypoints: newEntryPoints };
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();

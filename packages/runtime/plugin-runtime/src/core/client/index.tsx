@@ -9,6 +9,7 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 function isClientArgs(id: unknown): id is HTMLElement | string {
   return (
+    typeof id === 'undefined' ||
     typeof id === 'string' ||
     (typeof HTMLElement !== 'undefined' && id instanceof HTMLElement)
   );

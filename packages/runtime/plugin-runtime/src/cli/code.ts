@@ -27,7 +27,7 @@ export const generateCode = async (
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, entry, customEntry } = entrypoint;
       const { plugins: runtimePlugins } = await runner._internalRuntimePlugins({
-        entryName,
+        entrypoint,
         plugins: [],
       });
       if (isAutoMount) {

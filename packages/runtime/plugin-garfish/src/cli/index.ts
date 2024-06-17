@@ -207,7 +207,7 @@ export const garfishPlugin = ({
         logger('otherExportStatement', otherExportStatement);
         pluginsExportsUtils.addExport(otherExportStatement);
       },
-      async beforeCreateCompiler() {
+      async generateEntryCode({ entrypoints }) {
         const resolveOptions = api.useResolvedConfigContext();
         if (resolveOptions?.deploy?.microFrontend) {
           const appContext = api.useAppContext();
@@ -215,6 +215,7 @@ export const garfishPlugin = ({
           const { mountId } = resolvedConfig.html;
           await generateCode(appContext, mountId);
         }
+        return { entrypoints };
       },
     };
   },

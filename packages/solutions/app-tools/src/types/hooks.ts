@@ -35,7 +35,7 @@ export interface RuntimePlugin {
 
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   _internalRuntimePlugins: AsyncWaterfall<{
-    entryName: string;
+    entrypoint: Entrypoint;
     plugins: RuntimePlugin[];
   }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
@@ -52,6 +52,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     path: string;
     entry: false | string;
   }>;
+  generateEntryCode: AsyncWaterfall<{ entrypoints: Entrypoint[] }>;
   htmlPartials: AsyncWaterfall<{
     entrypoint: Entrypoint;
     partials: HtmlPartials;

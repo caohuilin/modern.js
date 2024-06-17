@@ -41,11 +41,12 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         });
         return { entrypoints: newEntryPoints };
       },
-      async beforeCreateCompiler() {
+      async generateEntryCode({ entrypoints }) {
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
         const { mountId } = resolvedConfig.html;
         await generateCode(api, appContext, mountId);
+        return { entrypoints };
       },
       /* Note that the execution time of the config hook is before prepare.
       /* This means that the entry information cannot be obtained in the config hook.
