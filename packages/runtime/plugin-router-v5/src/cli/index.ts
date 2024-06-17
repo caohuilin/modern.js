@@ -4,6 +4,7 @@ import {
 } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import './types';
+import { ServerRoute } from '@modern-js/types';
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',
@@ -13,6 +14,24 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     let routerExportsUtils: any;
 
     return {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
+        const userConfig = api.useResolvedConfigContext();
+        const { serverRoutes } = api.useAppContext();
+        if (isV5(userConfig)) {
+          const serverBase = serverRoutes
+            .filter(
+              (route: ServerRoute) => route.entryName === entrypoint.entryName,
+            )
+            .map(route => route.urlPath)
+            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+          plugins.push({
+            name: 'router',
+            implementation: '@modern-js/plugin-router-v5',
+            config: { serverBase },
+          });
+        }
+        return { entrypoint, plugins };
+      },
       config() {
         const appContext = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(

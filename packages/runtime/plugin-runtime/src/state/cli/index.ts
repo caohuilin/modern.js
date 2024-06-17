@@ -1,4 +1,4 @@
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
@@ -13,11 +13,24 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
 
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
-        plugins.push({
-          name: PLUGIN_IDENTIFIER,
-          implementation: '@modern-js/runtime/model',
-          config: {},
-        });
+        const { entryName, isMainEntry } = entrypoint;
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
+
+        const stateConfig = getEntryOptions(
+          entryName,
+          isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        )?.state;
+        if (stateConfig) {
+          plugins.push({
+            name: PLUGIN_IDENTIFIER,
+            implementation: '@modern-js/runtime/model',
+            config: {},
+          });
+        }
         return { entrypoint, plugins };
       },
       config() {

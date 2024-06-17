@@ -1,4 +1,4 @@
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
@@ -40,6 +40,25 @@ export const garfishPlugin = ({
   setup: api => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
+        const runtimeConfig = getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        );
+        if (runtimeConfig?.masterApp) {
+          plugins.push({
+            name: 'garfish',
+            implementation: '@modern-js/plugin-garfish',
+            config: runtimeConfig?.masterApp || {},
+          });
+        }
+        return { entrypoint, plugins };
+      },
       resolvedConfig: async config => {
         const { resolved } = config;
         const { masterApp, router } = getRuntimeConfig(resolved);

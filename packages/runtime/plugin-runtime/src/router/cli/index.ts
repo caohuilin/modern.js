@@ -1,5 +1,6 @@
 import {
   createRuntimeExportsUtils,
+  getEntryOptions,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
@@ -22,19 +23,29 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
 
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
-        const { serverRoutes } = api.useAppContext();
+        const { packageName, serverRoutes } = api.useAppContext();
         const serverBase = serverRoutes
           .filter(
             (route: ServerRoute) => route.entryName === entrypoint.entryName,
           )
           .map(route => route.urlPath)
           .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+        const userConfig = api.useResolvedConfigContext();
+        const runtimeConfig = getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        );
+        if (runtimeConfig?.router && !isV5(userConfig)) {
+          plugins.push({
+            name: 'router',
+            implementation: '@modern-js/runtime/router',
+            config: { serverBase },
+          });
+        }
 
-        plugins.push({
-          name: 'router',
-          implementation: '@modern-js/runtime/router',
-          config: { serverBase },
-        });
         return { entrypoint, plugins };
       },
       checkEntryPoint({ path, entry }) {
