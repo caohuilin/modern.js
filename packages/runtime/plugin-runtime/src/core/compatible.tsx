@@ -238,14 +238,14 @@ export const bootstrap: BootStrap = async (
 
       return runner.client(
         {
-          App,
+          App: React.createElement(App, { context } as any),
           context,
           ModernRender,
           ModernHydrate,
         },
         {
           onLast: ({ App }) => {
-            ModernRender(React.createElement(App, { context }));
+            ModernRender(App);
           },
         },
       );
