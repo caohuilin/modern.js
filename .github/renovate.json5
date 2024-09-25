@@ -9,10 +9,6 @@
       "semanticCommitType": "chore",
       // always bump package.json
       "rangeStrategy": "bump",
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-      ]
     },
     {
       "groupName": "rsbuild",
