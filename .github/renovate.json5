@@ -2,73 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "schedule:weekly"],
   "ignorePaths": ["**/tests/**", "**/node_modules/**"],
-  "packageRules": [
+  packageRules: [
     {
-      "groupName": "rsbuild",
-      "matchPackageNames": ["/^@rsbuild//"],
-      "groupSlug": "rsbuild",
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-        "minor"
+      "matchPackageNames": [
+        "@rspress/**",
       ]
-    },
-    {
-      "groupName": "rspress",
-      "matchPackageNames": ["/^@rspress//"],
-      "groupSlug": "rspress",
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-        "minor"
-      ]
-    },
-    {
-      "groupName": "codesmith",
-      "matchPackageNames": ["/^@modern-js//codesmith"],
-      "groupSlug": "codesmith",
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-        "minor"
-      ]
-    },
-    {
-      "groupName": "reduck",
-      "matchPackageNames": ["/^@modern-js-reduck//"],
-      "groupSlug": "reduck",
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-        "minor"
-      ]
-    },
-    {
-      "groupName": "changeset",
-      "matchPackageNames": ["/^@changeset//"],
-      "matchUpdateTypes": [
-        "digest",
-        "minor"
-      ]
-    },
-    {
-      "groupName": "types",
-      "matchPackageNames": ["/^@types//"],
-      "matchUpdateTypes": [
-        "digest",
-        "minor"
-      ]
-    },
-    {
-      "groupName": "all patch dependencies",
-      "groupSlug": "all-patch",
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["patch"]
-    },
-    // manually update peer dependencies
-    {
-      "depTypeList": ["peerDependencies"],
-      "enabled": false
     }
   ],
   "ignoreDeps": [
