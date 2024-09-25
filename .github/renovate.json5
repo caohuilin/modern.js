@@ -6,6 +6,23 @@
     {
       "matchPackageNames": [
         "@rspress/**",
+      ],
+      "groupName": "rspress monorepo",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+      ]
+    },
+    {
+      "matchPackageNames": [
+        "@rsbuild/**",
+      ],
+      "groupName": "rsbuild monorepo",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
       ]
     },
     {
