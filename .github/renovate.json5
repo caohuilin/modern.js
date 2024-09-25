@@ -7,6 +7,11 @@
       "matchPackageNames": [
         "@rspress/**",
       ]
+    },
+    {
+      "matchPackageNames": [
+        "@rsbuild/**",
+      ]
     }
   ],
   "ignoreDeps": [
@@ -26,6 +31,9 @@
     // server core hono dependency can not bump
     "hono",
     "@types/history",
-    "history"
+    "history",
+    "@types/lru-cache",
+    "@types/testing-library__jest-dom",
+    "pkg-up"
   ]
 }
