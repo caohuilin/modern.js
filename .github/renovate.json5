@@ -5,35 +5,62 @@
   "packageRules": [
     // Use chore as semantic commit type for commit messages
     {
-      "matchPackagePatterns": ["*"],
+      "matchPackageNames": ["*"],
       "semanticCommitType": "chore",
       // always bump package.json
-      "rangeStrategy": "bump"
+      "rangeStrategy": "bump",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+      ]
     },
     {
       "groupName": "rsbuild",
-      "matchPackageNames": ["@rsbuild/**"],
-      "groupSlug": "rsbuild"
+      "matchPackageNames": ["/^@rsbuild//"],
+      "groupSlug": "rsbuild",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ]
     },
     {
       "groupName": "rspress",
-      "matchPackageNames": ["@rspress/**"],
-      "groupSlug": "rspress"
+      "matchPackageNames": ["/^@rspress//"],
+      "groupSlug": "rspress",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ]
     },
     {
       "groupName": "codesmith",
-      "matchPackageNames": ["@modern-js/codesmith", "@modern-js/codesmith-**"],
-      "groupSlug": "codesmith"
+      "matchPackageNames": ["/^@modern-js//codesmith"],
+      "groupSlug": "codesmith",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ]
     },
     {
       "groupName": "reduck",
-      "matchPackageNames": ["@modern-js-reduck/**"],
-      "groupSlug": "reduck"
+      "matchPackageNames": ["/^@modern-js-reduck//"],
+      "groupSlug": "reduck",
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor"
+      ]
     },
     {
       "groupName": "types",
-      "matchPackageNames": ["^@types/**"],
-      "groupSlug": "types"
+      "matchPackageNames": ["/^@types//"],
+      "matchUpdateTypes": [
+        "digest",
+        "minor"
+      ]
     },
     {
       "groupName": "all patch dependencies",
@@ -62,6 +89,8 @@
     "@types/node",
     "node",
     // server core hono dependency can not bump
-    "hono"
+    "hono",
+    "@types/history",
+    "history"
   ]
 }
