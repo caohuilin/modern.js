@@ -35,7 +35,7 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/babel__core": "^7.20.5",
+    "@types/babel__core": "7.20.5",
     "@types/node": "^14",
     "jest": "^29",
     "typescript": "^5"
