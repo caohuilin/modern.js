@@ -47,9 +47,9 @@
   "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "@types/connect": "^3.4.35",
+    "@types/connect": "3.4.35",
     "@types/node": "^14",
-    "@types/serve-static": "^1.13.10",
+    "@types/serve-static": "1.13.10",
     "got": "^11.8.3",
     "typescript": "^5"
   }

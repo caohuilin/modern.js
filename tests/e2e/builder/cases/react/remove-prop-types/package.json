@@ -6,6 +6,6 @@
     "prop-types": "^15.8.1"
   },
   "devDependencies": {
-    "@types/prop-types": "^15"
+    "@types/prop-types": "15.7.5"
   }
 }

@@ -84,8 +84,8 @@
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@storybook/types": "~7.6.12",
-    "@types/babel__core": "^7.20.5",
-    "@types/serve-static": "^1.13.10",
+    "@types/babel__core": "7.20.5",
+    "@types/serve-static": "1.13.10",
     "typescript": "^5.2.2"
   },
   "publishConfig": {

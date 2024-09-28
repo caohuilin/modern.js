@@ -79,8 +79,8 @@
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.13",
     "@types/node": "^14",
-    "@types/react-devtools-inline": "^4.24.8",
-    "@types/ws": "^8.5.5",
+    "@types/react-devtools-inline": "4.24.8",
+    "@types/ws": "8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
   },
