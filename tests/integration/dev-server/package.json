@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "fs-extra": "^10.1.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-router": "^6",
-    "react-router-dom": "^6"
+    "fs-extra": "10.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router": "6.22.0",
+    "react-router-dom": "6.22.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

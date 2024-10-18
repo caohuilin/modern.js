@@ -64,11 +64,11 @@
   "dependencies": {
     "@modern-js/storybook-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@storybook/react": "~7.6.1",
-    "storybook": "~7.6.1"
+    "@storybook/react": "7.6.20",
+    "storybook": "7.6.20"
   },
   "devDependencies": {
-    "@storybook/types": "~7.6.12",
+    "@storybook/types": "7.6.20",
     "@types/node": "^20.5.6",
     "typescript": "^5.2.2"
   },

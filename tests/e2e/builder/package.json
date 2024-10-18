@@ -9,11 +9,11 @@
     "test:webpack-swc": "playwright test swc"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
-    "react": "^18",
-    "react-dom": "^18",
+    "lodash": "4.17.21",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-router-dom": "6.22.0",
-    "vue": "^3.3.4"
+    "vue": "3.3.4"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",

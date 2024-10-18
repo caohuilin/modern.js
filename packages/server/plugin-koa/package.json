@@ -77,9 +77,9 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.13",
-    "koa-body": "^4.2.0",
-    "koa-router": "^10.0.0",
-    "type-is": "^1.6.18"
+    "koa-body": "4.2.0",
+    "koa-router": "10.1.1",
+    "type-is": "1.6.18"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -92,14 +92,14 @@
     "@types/node": "^14",
     "@types/supertest": "^2.0.11",
     "@types/type-is": "^1.6.3",
-    "jest": "^29",
+    "jest": "29.5.0",
     "koa": "2.13.4",
-    "supertest": "^6.1.6",
+    "supertest": "6.2.3",
     "typescript": "^5",
-    "zod": "^3.22.3"
+    "zod": "3.22.3"
   },
   "peerDependencies": {
-    "koa": "^2.13.4"
+    "koa": "2.15.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
