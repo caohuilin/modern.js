@@ -8,8 +8,8 @@
     "test:rspack": "PROVIDE_TYPE=rspack playwright test --workers 1"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",

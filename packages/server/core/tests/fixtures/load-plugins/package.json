@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "test-a": "*",
-    "test-b": "*"
+    "test-a": "1.0.0",
+    "test-b": "1.0.0"
   }
 }

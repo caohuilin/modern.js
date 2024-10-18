@@ -43,7 +43,7 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.13",
-    "whistle": "^2.7.18"
+    "whistle": "2.9.22"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -51,7 +51,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "jest": "^29",
+    "jest": "29.5.0",
     "typescript": "^5"
   },
   "sideEffects": false,
