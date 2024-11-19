@@ -52,7 +52,7 @@
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/jest": "^29",
+    "@types/jest": "29.2.6",
     "@types/node": "^14",
     "jest": "^29",
     "ts-node": "^10.9.1",
