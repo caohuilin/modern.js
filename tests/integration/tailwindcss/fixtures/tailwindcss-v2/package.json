@@ -7,9 +7,9 @@
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "autoprefixer": "10.4.19",
-    "postcss": "^8.4.35",
-    "react": "^18",
-    "react-dom": "^18",
-    "tailwindcss": "^2"
+    "postcss": "8.4.35",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "2.2.19"
   }
 }

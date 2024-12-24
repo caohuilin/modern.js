@@ -16,8 +16,8 @@
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "koa": "2.13.4",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -27,8 +27,8 @@
     "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "isomorphic-fetch": "^3.0.0",
-    "ts-node": "^10.9.1",
+    "isomorphic-fetch": "3.0.0",
+    "ts-node": "10.9.2",
     "tsconfig-paths": "3.14.1",
     "typescript": "^5"
   },

@@ -62,10 +62,10 @@
     "test:watch": "vitest dev"
   },
   "dependencies": {
-    "@ampproject/remapping": "^2.2.1",
+    "@ampproject/remapping": "2.2.1",
     "@ast-grep/napi": "0.16.0",
-    "@babel/core": "^7.24.7",
-    "@babel/types": "^7.24.7",
+    "@babel/core": "7.24.7",
+    "@babel/types": "7.24.7",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
@@ -79,14 +79,14 @@
     "enhanced-resolve": "5.12.0",
     "esbuild": "0.19.2",
     "magic-string": "0.30.5",
-    "postcss": "^8.4.35",
+    "postcss": "8.4.35",
     "postcss-modules": "4.3.0",
     "safe-identifier": "0.4.2",
     "source-map": "0.7.4",
     "style-inject": "0.3.0",
     "sucrase": "3.29.0",
     "tapable": "2.2.1",
-    "terser": "^5.31.1",
+    "terser": "5.31.1",
     "tsconfig-paths-webpack-plugin": "4.1.0"
   },
   "devDependencies": {

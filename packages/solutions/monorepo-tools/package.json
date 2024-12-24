@@ -48,11 +48,11 @@
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rushstack/node-core-library": "^3.39.1",
-    "@rushstack/package-deps-hash": "^3.0.54",
+    "@rushstack/node-core-library": "3.59.7",
+    "@rushstack/package-deps-hash": "3.2.29",
     "@swc/helpers": "0.5.13",
-    "anymatch": "^3.1.2",
-    "md5": "^2.3.0",
+    "anymatch": "3.1.2",
+    "md5": "2.3.0",
     "p-map": "4.0.0"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
     "@types/jest": "^29",
     "@types/md5": "^2.3.1",
     "@types/node": "^14",
-    "jest": "^29",
+    "jest": "29.5.0",
     "typescript": "^5"
   },
   "sideEffects": false,
