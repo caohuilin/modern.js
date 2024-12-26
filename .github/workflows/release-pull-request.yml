@@ -49,15 +49,42 @@ jobs:
       - name: Prepare Monorepo-Tools
         run: pnpm run --filter @modern-js/monorepo-tools... build
 
-      - name: Create Release Pull Request
-        uses: web-infra-dev/actions@v2
+      - name: Get Release Version
+        id: get-release-version
+        run: |
+          output=${pnpm run get-release-version}
+          version=$(echo "$output" | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+')
+          echo "::set-output name=version::${version}"
+
+      - name: Get Release Note
+        id: get-release-note
+        run: |
+            output=${pnpm run gen-release-note}
+            echo "::set-output name=release_note::${output}"
+
+      - name: Bump Version
+        run: |
+          pnpm run bump
+          pnpm install
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit Changes
+        run: |
+          git checkout -b release-${{ steps.get-release-version.outputs.version }}
+          git add .
+          git commit -m "chorre: release ${{ steps.get-release-version.outputs.version }}"
+          git push origin release-${{ steps.get-release-version.outputs.version }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
         with:
-          # this expects you to have a script called release which does a build for your packages and calls changeset publish
-          version: ${{ github.event.inputs.version || 'latest' }}
-          versionNumber: 'auto'
-          type: 'pull request'
-          tools: 'modern'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY: ${{ github.repository }}
-          REF: ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: release-${{ steps.get-release-version.outputs.version }}
+          title: "Release: ${{ steps.get-release-version.outputs.version }}"
+          body: "${{ steps.get-release-note.outputs.release_note }}"
+
