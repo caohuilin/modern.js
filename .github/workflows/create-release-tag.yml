@@ -41,7 +41,7 @@ jobs:
             const { data: pulls } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              state: 'closed',
+              state: 'all',
               base: 'main', // 目标分支
               head: `${context.repo.owner}:${branchName}` // 源分支
             });
