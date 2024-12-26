@@ -35,12 +35,15 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
+            const branchName = process.env.GITHUB_REF.replace('refs/heads/', ''); // 提取分支名称
+            core.info(`Branch name: ${branchName}`);
+
             const { data: pulls } = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'closed',
               base: 'main', // 目标分支
-              head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}` // 源分支
+              head: `${context.repo.owner}:${branchName}` // 源分支
             });
 
             if (pulls.length === 0) {
