@@ -1,0 +1,65 @@
+name: Create Release
+on:
+  workflow_dispatch:
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Extract version from branch name
+        id: extract_version
+        run: |
+          # 提取分支名称，例如 release-v1.2.3
+          BRANCH_NAME="${GITHUB_REF##*/}"
+          echo "Branch name: $BRANCH_NAME"
+
+          # 使用正则表达式提取版本号
+          if [[ "$BRANCH_NAME" =~ ^release-v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+            echo "Extracted version: $VERSION"
+            echo "version=$VERSION" >> $GITHUB_ENV
+          else
+            echo "Branch name does not match the expected format (release-vx.x.x)"
+            exit 1
+          fi
+
+      - name: Get PR body
+        id: get_pr_body
+        uses: actions/github-script@v6
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              base: 'main', // 目标分支
+              head: `${context.repo.owner}:${process.env.GITHUB_REF_NAME}` // 源分支
+            });
+
+            if (pulls.length === 0) {
+              core.setFailed('No pull request found for this branch.');
+            } else {
+              const pr = pulls[0]; // 获取第一个 PR
+              core.info(`Found PR: ${pr.title}`);
+              core.setOutput('body', pr.body || ''); // 获取 PR 的 body
+            }
+
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.version }} # 使用提取的版本号作为 tag
+          release_name: v${{ env.version }} # 使用提取的版本号作为 release 名称
+          body: ${{ steps.get_pr_body.outputs.body }} # 使用 PR 的 body 作为 release 的 body
+          draft: false
+          prerelease: false
