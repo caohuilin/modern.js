@@ -48,7 +48,7 @@ jobs:
       - name: Get Release Note
         id: get-release-note
         run: |
-            output=$(pnpm run gen-release-note)
+            output=$(pnpm run gen-release-note | tail -n +3)
             echo "release_note=$output" >> $GITHUB_OUTPUT
 
       - name: Bump Version
