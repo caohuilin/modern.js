@@ -65,7 +65,7 @@ jobs:
         run: |
           git checkout -b release-${{ steps.get-release-version.outputs.version }}
           git add .
-          git commit -m "chorre: release ${{ steps.get-release-version.outputs.version }}"
+           ${{ steps.get-release-version.outputs.version }}"
           git push origin release-${{ steps.get-release-version.outputs.version }} -f
 
       - name: Create Pull Request
