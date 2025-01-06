@@ -1,5 +1,15 @@
 # file-based-router
 
+## 2.63.6
+
+### Patch Changes
+
+- ee369b4: feat: test
+- Updated dependencies [ee369b4]
+  - @modern-js/plugin-router-v5@2.63.6
+  - @modern-js/runtime@2.63.6
+  - @modern-js/app-tools@2.63.6
+
 ## 2.63.5
 
 ### Patch Changes

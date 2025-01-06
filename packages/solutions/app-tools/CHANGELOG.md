@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 2.63.6
+
+### Patch Changes
+
+- ee369b4: feat: test
+- Updated dependencies [ee369b4]
+  - @modern-js/core@2.63.6
+  - @modern-js/plugin-data-loader@2.63.6
+  - @modern-js/plugin-i18n@2.63.6
+  - @modern-js/rsbuild-plugin-esbuild@2.63.6
+  - @modern-js/uni-builder@2.63.6
+  - @modern-js/server-core@2.63.6
+  - @modern-js/prod-server@2.63.6
+  - @modern-js/server@2.63.6
+  - @modern-js/server-utils@2.63.6
+  - @modern-js/node-bundle-require@2.63.6
+  - @modern-js/plugin@2.63.6
+  - @modern-js/plugin-v2@2.63.6
+  - @modern-js/types@2.63.6
+  - @modern-js/utils@2.63.6
+
 ## 2.63.5
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @modern-js/generator-utils
 
+## 3.7.12
+
+### Patch Changes
+
+- ee369b4: feat: test
+- Updated dependencies [ee369b4]
+  - @modern-js/plugin-i18n@2.63.6
+  - @modern-js/generator-common@3.7.12
+
 ## 3.7.11
 
 ### Patch Changes
