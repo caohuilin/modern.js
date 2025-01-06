@@ -1,5 +1,14 @@
 # @modern-js/new-action
 
+## 2.63.6
+
+### Patch Changes
+
+- ee369b4: feat: test
+- Updated dependencies [ee369b4]
+  - @modern-js/generator-common@3.7.12
+  - @modern-js/generator-utils@3.7.12
+
 ## 2.63.5
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @modern-js/plugin-module-vue
 
+## 2.63.6
+
+### Patch Changes
+
+- ee369b4: feat: test
+- Updated dependencies [ee369b4]
+  - @modern-js/plugin-module-babel@2.63.6
+  - @modern-js/module-tools@2.63.6
+
 ## 2.63.5
 
 ### Patch Changes
