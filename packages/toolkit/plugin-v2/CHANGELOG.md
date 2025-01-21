@@ -1,5 +1,19 @@
 # @modern-js/plugin-v2
 
+## 2.64.0
+
+### Minor Changes
+
+- 9e6f86e: feat: runtime plugin use plugin v2
+
+  feat: runtime 插件使用插件 v2
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.64.0
+- @modern-js/runtime-utils@2.64.0
+- @modern-js/utils@2.64.0
+
 ## 2.63.7
 
 ### Patch Changes
